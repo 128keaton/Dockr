@@ -15,6 +15,8 @@
 		8AE33CA01A97C87800AEF3BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE33C9F1A97C87800AEF3BE /* Images.xcassets */; };
 		8AE33CA31A97C87800AEF3BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AE33CA11A97C87800AEF3BE /* LaunchScreen.xib */; };
 		8AE33CAF1A97C87800AEF3BE /* DockrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE33CAE1A97C87800AEF3BE /* DockrTests.m */; };
+		8AE33CBE1A97C89400AEF3BE /* ServerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE33CB81A97C89400AEF3BE /* ServerModel.m */; };
+		8AE33CC01A97C89400AEF3BE /* DisplayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE33CBB1A97C89400AEF3BE /* DisplayModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,10 @@
 		8AE33CA81A97C87800AEF3BE /* DockrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DockrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE33CAD1A97C87800AEF3BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE33CAE1A97C87800AEF3BE /* DockrTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DockrTests.m; sourceTree = "<group>"; };
+		8AE33CB81A97C89400AEF3BE /* ServerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerModel.m; sourceTree = "<group>"; };
+		8AE33CBB1A97C89400AEF3BE /* DisplayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayModel.m; sourceTree = "<group>"; };
+		8AE33CBC1A97C89400AEF3BE /* DisplayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayModel.h; sourceTree = "<group>"; };
+		8AE33CBD1A97C89400AEF3BE /* ServerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerModel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +90,7 @@
 		8AE33C8E1A97C87700AEF3BE /* Dockr */ = {
 			isa = PBXGroup;
 			children = (
+				8AE33CC11A97C89C00AEF3BE /* Retreival */,
 				8AE33C931A97C87700AEF3BE /* AppDelegate.h */,
 				8AE33C941A97C87700AEF3BE /* AppDelegate.m */,
 				8AE33C961A97C87700AEF3BE /* MasterViewController.h */,
@@ -122,6 +129,17 @@
 				8AE33CAD1A97C87800AEF3BE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8AE33CC11A97C89C00AEF3BE /* Retreival */ = {
+			isa = PBXGroup;
+			children = (
+				8AE33CB81A97C89400AEF3BE /* ServerModel.m */,
+				8AE33CBD1A97C89400AEF3BE /* ServerModel.h */,
+				8AE33CBB1A97C89400AEF3BE /* DisplayModel.m */,
+				8AE33CBC1A97C89400AEF3BE /* DisplayModel.h */,
+			);
+			name = Retreival;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,9 +242,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AE33CC01A97C89400AEF3BE /* DisplayModel.m in Sources */,
 				8AE33C951A97C87700AEF3BE /* AppDelegate.m in Sources */,
 				8AE33C981A97C87700AEF3BE /* MasterViewController.m in Sources */,
 				8AE33C921A97C87700AEF3BE /* main.m in Sources */,
+				8AE33CBE1A97C89400AEF3BE /* ServerModel.m in Sources */,
 				8AE33C9B1A97C87700AEF3BE /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
