@@ -7,10 +7,14 @@
 //
 
 #import "DetailViewController.h"
-
-@interface DetailViewController () <NSURLConnectionDelegate, NSURLConnectionDownloadDelegate>{
+ #import "BEMSimpleLineGraphView.h"
+#import "MasterViewController.h"
+@interface DetailViewController () <NSURLConnectionDelegate, NSURLConnectionDownloadDelegate, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>{
     IBOutlet UILabel *idLabel;
     IBOutlet UILabel *statusLabel;
+    IBOutlet BEMSimpleLineGraphView *graphView;
+    NSMutableArray *pointArray;
+    NSString *key;
 }
 
 @end
@@ -31,6 +35,18 @@
 }
 
 
+-(IBAction)refresh:(id)sender{
+    MasterViewController *masterViewController = [[MasterViewController alloc]init];
+    [masterViewController reloadDataRemotely];
+    
+
+    
+   // Container *container = [masterViewController.objects objectAtIndex:self.row];
+   // NSLog(@"New Container Name: %@", container.name.description);
+    
+    [self configureView];
+    
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
@@ -66,19 +82,87 @@
         idLabel.text = self.container.id.description;
         
         
+        
     }
 }
+
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+    
+    if ([pointArray count]>1) {
+  
+    return [pointArray count]; // Number of points in the graph.
+    }else{
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        NSString *string = self.container.status.description;
+        if ([string rangeOfString:@"Up"].location == NSNotFound) {
+            NSLog(@"server down");
+            [pointArray addObject:@"Down"];
+            [graphView reloadGraph];
+        } else {
+            NSLog(@"server up");
+            [pointArray addObject:@"Up"];
+            [graphView reloadGraph];
+        }
+        
+        NSLog(@"Count: %lu", (unsigned long)pointArray.count);
+        [defaults setObject:pointArray forKey:key];
+        [defaults synchronize];
+    
+    }
+    return [pointArray count];
+}
+
+
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+   
+    NSString *status = [pointArray objectAtIndex:index];
+    if ([status  isEqual: @"Down"]) {
+        return 0;
+    }else if ([status isEqual:@"Up"]){
+        return 5;
+    }
+    return 0;
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   
+    key = [NSString stringWithFormat:@"pointArray_%@", self.container.name.description];
+    if ([defaults objectForKey:key]!=nil) {
+        pointArray = [NSMutableArray arrayWithArray:[defaults objectForKey:key]];
+        NSLog(@"Found saved");
+        
+    }else{
+         pointArray = [[NSMutableArray alloc]init];
+        NSLog(@"Gonna make a new one");
+    }
+    
     
     NSString *string = self.container.status.description;
     if ([string rangeOfString:@"Up"].location == NSNotFound) {
         NSLog(@"server down");
+        [pointArray addObject:@"Down"];
+        [graphView reloadGraph];
     } else {
         NSLog(@"server up");
+        [pointArray addObject:@"Up"];
+        [graphView reloadGraph];
     }
+    
+    NSLog(@"Count: %lu", (unsigned long)pointArray.count);
+    [defaults setObject:pointArray forKey:key];
+    [defaults synchronize];
+
+
+    
+   
+    graphView.enableBezierCurve = YES;
+    graphView.animationGraphEntranceTime = 1.0f;
     
     [self configureView];
 }

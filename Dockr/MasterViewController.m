@@ -14,8 +14,8 @@
         DisplayModel *_displayModel;
 }
 
-@property NSArray *objects;
-
+//@property NSArray *objects;
+@property DisplayModel *_displayModel;
 
 @end
 
@@ -27,6 +27,11 @@
         self.clearsSelectionOnViewWillAppear = NO;
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
+}
+-(void)reloadDataRemotely{
+ 
+    [_displayModel downloadItems];
+    
 }
 
 - (void)viewDidLoad {
@@ -48,6 +53,10 @@
     [self.tableView addSubview:self.refreshControl];
     
 
+    
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [_displayModel downloadItems];
     
 }
 
@@ -81,6 +90,7 @@
 
         [controller setContainer:container];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [controller setRow:indexPath.row];
         
         [controller setDetailItem:container.id.description];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;

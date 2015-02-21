@@ -97,10 +97,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="X6N-oc-U6N">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="X6N-oc-U6N" customClass="BEMSimpleLineGraphView">
                             <rect key="frame" x="0.0" y="64" width="600" height="96"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="fNH-lD-Fg4" id="mQN-fY-KNV"/>
+                                <outlet property="delegate" destination="fNH-lD-Fg4" id="JS7-DQ-F0H"/>
+                            </connections>
                         </view>
                         <sections>
                             <tableViewSection id="VJv-7P-Qhw">
@@ -215,10 +219,17 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="tsG-YH-EN4"/>
+                    <navigationItem key="navigationItem" id="tsG-YH-EN4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="c28-k3-buD">
+                            <connections>
+                                <action selector="refresh:" destination="fNH-lD-Fg4" id="Y7B-Xm-wlj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="detailDescriptionLabel" destination="fbt-V0-v8c" id="pMV-9x-r1H"/>
+                        <outlet property="graphView" destination="X6N-oc-U6N" id="DEd-iU-dKb"/>
                         <outlet property="idLabel" destination="KpR-ZF-4es" id="WYu-Ka-6gO"/>
                         <outlet property="statusLabel" destination="P1K-ih-LIk" id="hU3-e0-7Z0"/>
                     </connections>

@@ -13,7 +13,8 @@
 @interface MasterViewController : UITableViewController
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
-
+@property (nonatomic, strong) NSArray *objects;
+-(void)reloadDataRemotely;
 
 @end
 

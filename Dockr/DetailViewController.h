@@ -12,6 +12,7 @@
 @interface DetailViewController : UITableViewController
 
 @property (strong, nonatomic) id detailItem;
+@property (nonatomic) NSArray *row;
 @property (strong, nonatomic) Container *container;
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
