@@ -8,9 +8,14 @@
 
 #import "DetailViewController.h"
 
-@interface DetailViewController () <NSURLConnectionDelegate, NSURLConnectionDownloadDelegate>
+@interface DetailViewController () <NSURLConnectionDelegate, NSURLConnectionDownloadDelegate>{
+    IBOutlet UILabel *idLabel;
+    IBOutlet UILabel *statusLabel;
+}
 
 @end
+
+
 
 @implementation DetailViewController
 
@@ -24,6 +29,18 @@
         [self configureView];
     }
 }
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden:NO animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden:YES animated:YES];
+}
+
 
 - (void)configureView {
     // Update the user interface for the detail item.
@@ -45,12 +62,24 @@
         
         self.detailDescriptionLabel.text = stringWithoutEnter;
         self.title =[NSString stringWithFormat: @"Manage: %@", stringWithoutEnter];
+        statusLabel.text = self.container.status.description;
+        idLabel.text = self.container.id.description;
+        
+        
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    NSString *string = self.container.status.description;
+    if ([string rangeOfString:@"Up"].location == NSNotFound) {
+        NSLog(@"server down");
+    } else {
+        NSLog(@"server up");
+    }
+    
     [self configureView];
 }
 

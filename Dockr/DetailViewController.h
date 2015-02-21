@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DisplayModel.h"
 #import "ServerModel.h"
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UITableViewController
 
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) Container *container;
@@ -17,4 +17,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
 @end
+
 

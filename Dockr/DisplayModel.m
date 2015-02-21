@@ -84,7 +84,7 @@
             
      
         
-            Container *newContainer = [Container containerWithName:jsonElement[@"Names"] id:jsonElement[@"Id"] status:jsonElement[@"Running"]];
+            Container *newContainer = [Container containerWithName:jsonElement[@"Names"] id:jsonElement[@"Id"] status:jsonElement[@"Status"]];
                                        
         
         // Add this question to the locations array
