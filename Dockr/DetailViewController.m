@@ -29,7 +29,7 @@
     // Update the user interface for the detail item.
     if (self.detailItem) {
         NSString *containerName = self.container.name;
-        
+        NSLog(@"Running: %@", self.container.status);
         containerName = containerName.description;
         NSString *stringWithoutSpaces = [containerName
                                          stringByReplacingOccurrencesOfString:@" " withString:@""];

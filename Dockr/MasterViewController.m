@@ -80,6 +80,7 @@
         Container *container = [[self objects] objectAtIndex:[indexPath row]];
 
         [controller setContainer:container];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         
         [controller setDetailItem:container.id.description];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
@@ -125,6 +126,8 @@
     
      //NSLog(stringWithoutEnter);
     cell.textLabel.text = stringWithoutEnter;
+    cell.detailTextLabel.text = container.id.description;
+    
     return cell;
 }
 
@@ -132,9 +135,9 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if (buttonIndex == 0) {
-        [defaults setValue:@"http://192.168.1.139:4243/containers/json?all=0" forKey:@"url"];
+        [defaults setValue:[NSString stringWithFormat:@"http://%@/containers/json?all=0", [defaults objectForKey:@"baseURL"]] forKey:@"sortingURL"];
     }else if (buttonIndex == 1){
-          [defaults setValue:@"http://192.168.1.139:4243/containers/json?all=1" forKey:@"url"];
+        [defaults setValue:[NSString stringWithFormat:@"http://%@/containers/json?all=1", [defaults objectForKey:@"baseURL"]] forKey:@"sortingURL"];
     }
     [_displayModel downloadItems];
     

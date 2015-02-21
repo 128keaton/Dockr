@@ -7,18 +7,37 @@
 //
 
 #import "SettingsViewController.h"
+#include<unistd.h>
+#include<netdb.h>
 
-@interface SettingsViewController ()
+@interface SettingsViewController () <UITextFieldDelegate>
 {
     IBOutlet UITextField *urlField;
+    NSUserDefaults *defaults;
+    BOOL ifReady;
+    IBOutlet UILabel *resultLabel;
+    IBOutlet UITableViewCell *resultCell;
 }
 @end
+
+
 
 @implementation SettingsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    ifReady = false;
     
+    [urlField addTarget:self
+                 action:@selector(textFieldDidChange:)
+        forControlEvents:UIControlEventEditingChanged];
+    defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"baseURL"]!=nil) {
+        urlField.text = [defaults objectForKey:@"baseURL"];
+                         
+    }
+    
+    resultLabel.hidden = YES;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -26,20 +45,69 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell* cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    if(cell == resultCell && ifReady == false){
+    resultLabel.hidden = YES;
+         return 0; //set the hidden cell's height to 0
+    }
+    else{
+    resultLabel.hidden = NO;
+        resultCell.hidden = false;
+        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+
+-(IBAction)textFieldDidChange:(id)sender{
+    [defaults setObject:urlField.text forKey:@"baseURL"];
+    [defaults synchronize];
+    
+}
 #pragma mark - Table view data source
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 1) {
-        //TO-DO Add 'testing' function
+        
+        [self.tableView beginUpdates];
+        ifReady = true;
+        [self.tableView endUpdates];
+        
+        NSLog([self testConnection] ? @"Yes" : @"No");
+        
+       [self performSelector:@selector(rehideResult) withObject:nil afterDelay:3.0f];
         NSLog(@"Not implemented");
         
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+}
+
+-(BOOL)testConnection{
+    
+    NSString *preurl = [NSString stringWithFormat:@"http://%@/containers/json?all=0", [defaults objectForKey:@"baseURL"]];
+    NSLog(preurl);
+    const char *uString = [preurl UTF8String];
+    struct addrinfo *res = NULL; int s = getaddrinfo(uString, NULL, NULL, &res); bool network_ok = (s == 0 && res != NULL); freeaddrinfo(res);
+    
+    return network_ok;
+    
+}
+-(void)rehideResult{
+   
+    
+    [self.tableView beginUpdates];
+    ifReady = false;
+    [self.tableView endUpdates];
+
+  
 }
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

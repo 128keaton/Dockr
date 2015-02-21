@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 @interface Container : NSObject
-
+@property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *name;
-
 @property (nonatomic, strong) NSString *id;
 
 
-+ (instancetype)containerWithName:(NSString *)name id:(NSString *)id;
+
++ (instancetype)containerWithName:(NSString *)name id:(NSString *)id status:(NSString *)status;
 @end
 

@@ -13,11 +13,11 @@
 
 
 
-+ (instancetype)containerWithName:(NSString *)name id:(NSString *)id{
++ (instancetype)containerWithName:(NSString *)name id:(NSString *)id status:(NSString *)status{
     Container *newContainer = [[self alloc] init];
 
     newContainer.id = id;
-    
+    newContainer.status = status;
     newContainer.name = name;
     return newContainer;
     

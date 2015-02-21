@@ -27,14 +27,16 @@
     NSString *sortingURL = [defaults objectForKey:@"sortingURL"];
     NSString *baseURL = [defaults objectForKey:@"baseURL"];
     
-    if (sortingURL == nil) {
+   
+    if (sortingURL != nil) {
    
         
     // Download the json file
-        NSString *placeholderURL = [NSString stringWithFormat:@"http://%@/containers/json?all=0", baseURL];
-    jsonFileUrl= [NSURL URLWithString:placeholderURL];
+        
+    jsonFileUrl= [NSURL URLWithString:sortingURL];
     }else{
-       jsonFileUrl= [NSURL URLWithString:[defaults objectForKey:@"url"]];
+        NSString *placeholder = [NSString stringWithFormat:@"http://%@/containers/json?all=1", baseURL];
+        jsonFileUrl = [NSURL URLWithString:placeholder] ;
     }
     
     // Create the request
@@ -82,7 +84,7 @@
             
      
         
-            Container *newContainer = [Container containerWithName:jsonElement[@"Names"] id:jsonElement[@"Id"]];
+            Container *newContainer = [Container containerWithName:jsonElement[@"Names"] id:jsonElement[@"Id"] status:jsonElement[@"Running"]];
                                        
         
         // Add this question to the locations array
