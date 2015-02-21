@@ -24,11 +24,15 @@
 {
     NSURL *jsonFileUrl;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *url = [defaults objectForKey:@"url"];
-    if (url == nil) {
+    NSString *sortingURL = [defaults objectForKey:@"sortingURL"];
+    NSString *baseURL = [defaults objectForKey:@"baseURL"];
+    
+    if (sortingURL == nil) {
    
+        
     // Download the json file
-    jsonFileUrl= [NSURL URLWithString:@"http://192.168.1.139:4243/containers/json?all=0"];
+        NSString *placeholderURL = [NSString stringWithFormat:@"http://%@/containers/json?all=0", baseURL];
+    jsonFileUrl= [NSURL URLWithString:placeholderURL];
     }else{
        jsonFileUrl= [NSURL URLWithString:[defaults objectForKey:@"url"]];
     }

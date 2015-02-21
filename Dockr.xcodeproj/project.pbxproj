@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8AC98A1E1A980B700095250C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AC98A1D1A980B700095250C /* SettingsViewController.m */; };
 		8AE33C921A97C87700AEF3BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE33C911A97C87700AEF3BE /* main.m */; };
 		8AE33C951A97C87700AEF3BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE33C941A97C87700AEF3BE /* AppDelegate.m */; };
 		8AE33C981A97C87700AEF3BE /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE33C971A97C87700AEF3BE /* MasterViewController.m */; };
@@ -30,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8AC98A1C1A980B700095250C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = ../SettingsViewController.h; sourceTree = "<group>"; };
+		8AC98A1D1A980B700095250C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = ../SettingsViewController.m; sourceTree = "<group>"; };
 		8AE33C8C1A97C87700AEF3BE /* Dockr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dockr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE33C901A97C87700AEF3BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE33C911A97C87700AEF3BE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -90,6 +93,8 @@
 		8AE33C8E1A97C87700AEF3BE /* Dockr */ = {
 			isa = PBXGroup;
 			children = (
+				8AC98A1C1A980B700095250C /* SettingsViewController.h */,
+				8AC98A1D1A980B700095250C /* SettingsViewController.m */,
 				8AE33CC11A97C89C00AEF3BE /* Retreival */,
 				8AE33C931A97C87700AEF3BE /* AppDelegate.h */,
 				8AE33C941A97C87700AEF3BE /* AppDelegate.m */,
@@ -248,6 +253,7 @@
 				8AE33C921A97C87700AEF3BE /* main.m in Sources */,
 				8AE33CBE1A97C89400AEF3BE /* ServerModel.m in Sources */,
 				8AE33C9B1A97C87700AEF3BE /* DetailViewController.m in Sources */,
+				8AC98A1E1A980B700095250C /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +446,7 @@
 				8AE33CB41A97C87800AEF3BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8AE33CB51A97C87800AEF3BE /* Build configuration list for PBXNativeTarget "DockrTests" */ = {
 			isa = XCConfigurationList;
@@ -448,6 +455,7 @@
 				8AE33CB71A97C87800AEF3BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+  
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showFilterOptions:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -76,8 +76,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+              DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         Container *container = [[self objects] objectAtIndex:[indexPath row]];
 
         [controller setContainer:container];
@@ -124,7 +123,7 @@
     NSString *stringWithoutSlash = [stringWithoutPar2 stringByReplacingOccurrencesOfString:@"/" withString:@""];
     NSString *stringWithoutEnter = [stringWithoutSlash stringByReplacingOccurrencesOfString:@"\n" withString:@""  options:0 range:NSMakeRange(0, 1)];
     
-     NSLog(stringWithoutEnter);
+     //NSLog(stringWithoutEnter);
     cell.textLabel.text = stringWithoutEnter;
     return cell;
 }
