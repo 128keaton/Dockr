@@ -1,0 +1,13 @@
+PODS:
+  - BEMSimpleLineGraph (3.3)
+  - CRGradientNavigationBar (0.3.2)
+
+DEPENDENCIES:
+  - BEMSimpleLineGraph
+  - CRGradientNavigationBar
+
+SPEC CHECKSUMS:
+  BEMSimpleLineGraph: 0ec77f0a2d3e8e448118bbb26963b72f94f1d618
+  CRGradientNavigationBar: e11429639a863683acc90887b9c86e75cb5d098c
+
+COCOAPODS: 0.36.0.beta.1

@@ -1,0 +1,2 @@
+pod 'CRGradientNavigationBar'
+pod 'BEMSimpleLineGraph'
