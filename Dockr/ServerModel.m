@@ -31,12 +31,14 @@
 @implementation Image
 
 
-+ (instancetype)imageWithName:(NSString *)name id:(NSString *)id status:(NSString *)status{
++ (instancetype)imageWithName:(NSString *)name id:(NSString *)id status:(NSString *)status ports:(NSString *)ports{
     Image *newImage = [[self alloc] init];
     
     newImage.id = id;
     newImage.status = status;
     newImage.name = name;
+    newImage.ports = ports;
+    
     return newImage;
     
 }

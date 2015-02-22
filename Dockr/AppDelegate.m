@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DetailViewController.h"
+#import <CRGradientNavigationBar/CRGradientNavigationBar.h>
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -22,7 +23,23 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
+    UIColor *firstColor = [UIColor colorWithRed:0.0745 green:0.5804 blue:1.0000 alpha:1.0];
+    UIColor *secondColor = [UIColor colorWithRed:0.2039 green:0.8157 blue:1.0000 alpha:1.0];
+    NSArray *colors = [NSArray arrayWithObjects:firstColor, secondColor, nil];
+    [[CRGradientNavigationBar appearance] setBarTintGradientColors:colors];
+    [[navigationController navigationBar] setTranslucent:NO];
+    [[navigationController navigationBar] setTintColor:[UIColor whiteColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     return YES;
+}
+
+
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

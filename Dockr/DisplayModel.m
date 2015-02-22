@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "ServerModel.h"
 #import "DisplayModel.h"
-
+#import <CoreGraphics/CoreGraphics.h>
 
 @interface DisplayModel()
 {
@@ -84,7 +84,7 @@
             
      
         
-            Container *newContainer = [Container containerWithName:jsonElement[@"Names"] id:jsonElement[@"Id"] status:jsonElement[@"Running"]];
+            Container *newContainer = [Container containerWithName:jsonElement[@"Names"] id:jsonElement[@"Id"] status:jsonElement[@"Status"]];
                                        
         
         // Add this question to the locations array
@@ -149,6 +149,7 @@
 }
 
 
+
 #pragma mark NSURLConnectionDataProtocol Methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -193,12 +194,24 @@
        
             
             NSMutableDictionary *runningElement = [jsonElement objectForKey:@"State"];
-            
-  
-            Image *newImage = [Image imageWithName:jsonElement[@"Name"] id:jsonElement[@"Id"] status:runningElement[@"Running"]];
+             NSMutableDictionary *networkSettings = [jsonElement objectForKey:@"NetworkSettings"];
+            NSString *ports = networkSettings[@"Ports"];
 
+            ports = [ports.description stringByReplacingOccurrencesOfString:@"\" =" withString:@""];
+            ports = [ports stringByReplacingOccurrencesOfString:@"{" withString:@""];
+            ports = [ports stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            ports = [ports stringByReplacingOccurrencesOfString:@" " withString:@""];
+            ports = [ports stringByReplacingOccurrencesOfString:@"HostIp=\"0.0.0.0\";HostPort=" withString:@" "];
+            ports = [ports stringByReplacingOccurrencesOfString:@"( " withString:@" [ Host:"];
+            ports = [ports stringByReplacingOccurrencesOfString:@";});" withString:@"] "];
+            ports = [ports stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            ports = [ports stringByReplacingOccurrencesOfString:@" }" withString:@""];
             
             
+            NSLog(@"PORTZ: %@", ports);
+            NSLog(@"Jingle Jangle: %@", [jsonElement allKeys]);
+            
+                        Image *newImage = [Image imageWithName:jsonElement[@"Name"] id:jsonElement[@"Id"] status:runningElement[@"Running"] ports:ports];
             // Add this question to the locations array
             [_athletes addObject:newImage];
         }
@@ -212,6 +225,8 @@
         [self.delegate imagesDownloaded:_athletes];
     }
 }
+
+
 
 
 @end

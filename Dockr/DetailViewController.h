@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DisplayModel.h"
 #import "ServerModel.h"
+
 @interface DetailViewController : UITableViewController
 
 @property (strong, nonatomic) id detailItem;

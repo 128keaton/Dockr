@@ -18,8 +18,10 @@
     NSString *key;
     NSArray *valueArray;
     ImageModel *_imageModel;
+    IBOutlet UILabel *ports;
+    IBOutlet UILabel *uptime;
 }
-
+@property (strong)Image *testImage;
 @end
 
 
@@ -77,9 +79,9 @@
      
       //  NSLog(@"Running: %@", self.container.status);
         
-        Image *testImage = [valueArray objectAtIndex:0];
-        NSLog(@"Running: %@", testImage.status);
-           NSString *containerName = testImage.name.description;
+        _testImage = [valueArray objectAtIndex:0];
+        NSLog(@"Running: %@", _testImage.status);
+           NSString *containerName = _testImage.name.description;
         containerName = containerName.description;
         NSString *stringWithoutSpaces = [containerName
                                          stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -95,11 +97,12 @@
         
         self.detailDescriptionLabel.text = stringWithoutEnter;
         self.title =[NSString stringWithFormat: @"Manage: %@", stringWithoutEnter];
-        idLabel.text = testImage.id.description;
+        idLabel.text = _testImage.id.description;
+        uptime.text = self.container.status.description;
         
         
       
-        if ([testImage.status.description rangeOfString:@"1"].location == NSNotFound) {
+        if ([_testImage.status.description rangeOfString:@"1"].location == NSNotFound) {
                   statusLabel.text = @"Dead in the water";
         } else {
             statusLabel.text = @"Full speed ahead";
@@ -119,7 +122,7 @@
         }
         
         
-        NSString *string = testImage.status.description;
+        NSString *string = _testImage.status.description;
         if ([string rangeOfString:@"1"].location == NSNotFound) {
             NSLog(@"server down");
             [pointArray addObject:@"Down"];
@@ -129,6 +132,8 @@
             [pointArray addObject:@"Up"];
             [graphView reloadGraph];
         }
+        ports.text = _testImage.ports.description;
+        NSLog(@"Ports; %@", _testImage.ports.description);
         
         NSLog(@"Count: %lu", (unsigned long)pointArray.count);
         [defaults setObject:pointArray forKey:key];
@@ -142,6 +147,47 @@
         
     }
 }
+
+-(CGFloat)heightForTextViewRectWithWidth:(CGFloat)width andText:(NSString *)text
+{
+    UIFont * font = [UIFont systemFontOfSize:12.0f];
+    
+    // this returns us the size of the text for a rect but assumes 0, 0 origin
+    CGSize size = [text sizeWithAttributes:@{NSFontAttributeName: font}];
+    
+    // so we calculate the area
+    CGFloat area = size.height * size.width;
+    
+    CGFloat buffer = 3.0f;
+    
+    // and then return the new height which is the area divided by the width
+    // Basically area = h * w
+    // area / width = h
+    // for w we use the width of the actual text view
+    return floor(area/width) + buffer;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    if (indexPath.row == 4) {
+
+    NSString * yourText =  _testImage.ports;// or however you are getting the text
+    return 3 + [self heightForText:yourText];
+    }
+    return 44;
+}
+
+-(CGFloat)heightForText:(NSString *)text
+{
+    NSInteger MAX_HEIGHT = 2000;
+    UITextView * textView = [[UITextView alloc] initWithFrame: CGRectMake(0, 0, 45 , MAX_HEIGHT)];
+    textView.text = text;
+    textView.font = [UIFont systemFontOfSize:12];
+    [textView sizeToFit];
+    return textView.frame.size.height;
+}
+
 
 - (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     

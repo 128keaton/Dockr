@@ -22,12 +22,13 @@
 
 @interface Image : NSObject
 @property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *ports;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *id;
 
 
 
-+ (instancetype)imageWithName:(NSString *)name id:(NSString *)id status:(NSString *)status;
++ (instancetype)imageWithName:(NSString *)name id:(NSString *)id status:(NSString *)status ports:(NSString *)ports;
 @end
 
 
