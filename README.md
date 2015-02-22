@@ -3,9 +3,10 @@ Dockr is a simple Docker management client for iOS. Still very much in alpha.
 ## Features:
 * Stop/Start Containers.
 * Filter between running and all images.
+* Basic container status (ports, IPs, uptime)
+
 ## Planned:
 * Load..
-* Basic container status (ports, IPs, uptime)
 * Searching/advance filtering.
 * Deletion/Creation.
 
