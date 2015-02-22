@@ -17,3 +17,17 @@
 + (instancetype)containerWithName:(NSString *)name id:(NSString *)id status:(NSString *)status;
 @end
 
+
+
+
+@interface Image : NSObject
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *id;
+
+
+
++ (instancetype)imageWithName:(NSString *)name id:(NSString *)id status:(NSString *)status;
+@end
+
+

@@ -9,12 +9,15 @@
 #import "DetailViewController.h"
  #import "BEMSimpleLineGraphView.h"
 #import "MasterViewController.h"
-@interface DetailViewController () <NSURLConnectionDelegate, NSURLConnectionDownloadDelegate, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>{
+#import "DisplayModel.h"
+@interface DetailViewController () <NSURLConnectionDelegate, NSURLConnectionDownloadDelegate, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate, ImageModelProtocol>{
     IBOutlet UILabel *idLabel;
     IBOutlet UILabel *statusLabel;
     IBOutlet BEMSimpleLineGraphView *graphView;
     NSMutableArray *pointArray;
     NSString *key;
+    NSArray *valueArray;
+    ImageModel *_imageModel;
 }
 
 @end
@@ -34,12 +37,22 @@
     }
 }
 
+-(void)imagesDownloaded:(NSArray *)items{
+    
+    valueArray = items;
+    NSLog(@"Stuff count: %lu", (unsigned long)items.count);
+    
+
+    [self.tableView reloadData];
+        [self configureView];
+}
 
 -(IBAction)refresh:(id)sender{
     MasterViewController *masterViewController = [[MasterViewController alloc]init];
     [masterViewController reloadDataRemotely];
     
 
+    [_imageModel downloadImages:self.container.name.description];
     
    // Container *container = [masterViewController.objects objectAtIndex:self.row];
    // NSLog(@"New Container Name: %@", container.name.description);
@@ -61,8 +74,12 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        NSString *containerName = self.container.name;
-        NSLog(@"Running: %@", self.container.status);
+     
+      //  NSLog(@"Running: %@", self.container.status);
+        
+        Image *testImage = [valueArray objectAtIndex:0];
+        NSLog(@"Running: %@", testImage.status);
+           NSString *containerName = testImage.name.description;
         containerName = containerName.description;
         NSString *stringWithoutSpaces = [containerName
                                          stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -74,12 +91,52 @@
                                        stringByReplacingOccurrencesOfString:@")" withString:@""];
         NSString *stringWithoutSlash = [stringWithoutPar2 stringByReplacingOccurrencesOfString:@"/" withString:@""];
         NSString *stringWithoutEnter = [stringWithoutSlash stringByReplacingOccurrencesOfString:@"\n" withString:@""  options:0 range:NSMakeRange(0, 1)];
-
+      
         
         self.detailDescriptionLabel.text = stringWithoutEnter;
         self.title =[NSString stringWithFormat: @"Manage: %@", stringWithoutEnter];
-        statusLabel.text = self.container.status.description;
-        idLabel.text = self.container.id.description;
+        idLabel.text = testImage.id.description;
+        
+        
+      
+        if ([testImage.status.description rangeOfString:@"1"].location == NSNotFound) {
+                  statusLabel.text = @"Dead in the water";
+        } else {
+            statusLabel.text = @"Full speed ahead";
+        }
+        
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        key = [NSString stringWithFormat:@"pointArray_%@", self.container.name.description];
+        if ([defaults objectForKey:key]!=nil) {
+            pointArray = [NSMutableArray arrayWithArray:[defaults objectForKey:key]];
+            NSLog(@"Found saved");
+            
+        }else{
+            pointArray = [[NSMutableArray alloc]init];
+            NSLog(@"Gonna make a new one");
+        }
+        
+        
+        NSString *string = testImage.status.description;
+        if ([string rangeOfString:@"1"].location == NSNotFound) {
+            NSLog(@"server down");
+            [pointArray addObject:@"Down"];
+            [graphView reloadGraph];
+        } else {
+            NSLog(@"server up");
+            [pointArray addObject:@"Up"];
+            [graphView reloadGraph];
+        }
+        
+        NSLog(@"Count: %lu", (unsigned long)pointArray.count);
+        [defaults setObject:pointArray forKey:key];
+        [defaults synchronize];
+
+        
+        
+   
         
         
         
@@ -129,43 +186,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    
     // Do any additional setup after loading the view, typically from a nib.
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-   
-    key = [NSString stringWithFormat:@"pointArray_%@", self.container.name.description];
-    if ([defaults objectForKey:key]!=nil) {
-        pointArray = [NSMutableArray arrayWithArray:[defaults objectForKey:key]];
-        NSLog(@"Found saved");
-        
-    }else{
-         pointArray = [[NSMutableArray alloc]init];
-        NSLog(@"Gonna make a new one");
-    }
+        _imageModel = [[ImageModel alloc]init];
+    _imageModel.delegate = self;
     
+    [_imageModel downloadImages:self.container.name.description];
     
-    NSString *string = self.container.status.description;
-    if ([string rangeOfString:@"Up"].location == NSNotFound) {
-        NSLog(@"server down");
-        [pointArray addObject:@"Down"];
-        [graphView reloadGraph];
-    } else {
-        NSLog(@"server up");
-        [pointArray addObject:@"Up"];
-        [graphView reloadGraph];
-    }
-    
-    NSLog(@"Count: %lu", (unsigned long)pointArray.count);
-    [defaults setObject:pointArray forKey:key];
-    [defaults synchronize];
-
-
+ 
     
    
     graphView.enableBezierCurve = YES;
     graphView.animationGraphEntranceTime = 1.0f;
     
-    [self configureView];
+
 }
+
 
 -(IBAction)stopHammerTime:(id)sender{
     NSString *containerName = self.container.name;
@@ -182,7 +219,7 @@
     NSString *stringWithoutSlash = [stringWithoutPar2 stringByReplacingOccurrencesOfString:@"/" withString:@""];
     NSString *stringWithoutEnter = [stringWithoutSlash stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
-
+ 
 /*    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.139:4243"]];
     
     // Specify that it will be a POST request
@@ -236,8 +273,12 @@
     else {
         NSLog(@"theConnection is NULL");
     }
+  [self performSelector:@selector(timedRefresh) withObject:nil afterDelay:1.0f];
     
-    
+}
+
+-(void)timedRefresh{
+       [_imageModel downloadImages:self.container.name.description];
 }
 
 -(IBAction)startHammerTime:(id)sender{
@@ -280,7 +321,7 @@
     else {
         NSLog(@"theConnection is NULL");
     }
-    
+    [self performSelector:@selector(timedRefresh) withObject:nil afterDelay:1.0f];
     
 }
 

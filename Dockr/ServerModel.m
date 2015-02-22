@@ -27,3 +27,18 @@
 
 
 @end
+
+@implementation Image
+
+
++ (instancetype)imageWithName:(NSString *)name id:(NSString *)id status:(NSString *)status{
+    Image *newImage = [[self alloc] init];
+    
+    newImage.id = id;
+    newImage.status = status;
+    newImage.name = name;
+    return newImage;
+    
+}
+
+@end

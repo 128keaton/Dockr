@@ -23,3 +23,22 @@
 @end
 
 
+
+
+@protocol ImageModelProtocol <NSObject>
+
+
+
+- (void)imagesDownloaded:(NSArray *)items;
+
+@end
+
+@interface ImageModel : NSObject
+@property (nonatomic, weak) id<ImageModelProtocol> delegate;
+
+- (void)downloadImages:(NSString *)name;
+
+@end
+
+
+

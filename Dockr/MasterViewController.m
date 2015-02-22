@@ -90,7 +90,7 @@
 
         [controller setContainer:container];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [controller setRow:indexPath.row];
+  //      [controller setRow:indexPath.row];
         
         [controller setDetailItem:container.id.description];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
